@@ -1,0 +1,2 @@
+use iair;
+select database();

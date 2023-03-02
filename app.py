@@ -1,14 +1,19 @@
-from flask import Flask, send_from_directory
-from flask_restful import Api, Resource, reqparse
-from flask_cors import CORS #comment this on deployment
-from backend.apiHandler import HelloApiHandler
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__, static_url_path='', static_folder='iair_interface/public')
-CORS(app) #comment this on deployment
-api = Api(app)
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://iair:iair@localhost:3306/iair'
+db = SQLAlchemy(app)
 
-@app.route("/", defaults={'path':''})
-def serve(path):
-    return send_from_directory(app.static_folder,'index.html')
 
-api.add_resource(HelloApiHandler, '/flask/hello')
+@app.route('/')
+def index_page():
+    # check the table city in db
+    cities = db.session.execute('select * from city')
+    #print(cities.all())
+    tables = db.session.execute('show tables')
+    # show the content in tables
+    for table in tables:
+        print(table)
+    return "Hello World!"
+
