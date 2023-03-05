@@ -9,11 +9,10 @@ db = SQLAlchemy(app)
 @app.route('/')
 def index_page():
     # check the table city in db
-    cities = db.session.execute('select * from city')
+    cities = db.session.execute('select * from city where city_id > "300"')
     #print(cities.all())
-    tables = db.session.execute('show tables')
-    # show the content in tables
-    for table in tables:
-        print(table)
-    return "Hello World!"
+    # concat the string in cities list
+    cities = [city[0] for city in cities]
+    cities = ", ".join(cities)
+    return cities
 

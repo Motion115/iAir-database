@@ -25,5 +25,5 @@
 1. **csv original** folder: the author's original data
 2. **csv new** folder: the transformed data, with meteorology.csv and weatherforecast.csv not used in application.
 
-Original data can be found AT: [data](https://www.microsoft.com/en-us/research/uploads/prod/2016/02/Data-1.zip)，if needed, you can run the above program yourself (its a bit big for github sync).
+Original data can be found AT: [data](https://www.microsoft.com/en-us/research/uploads/prod/2016/02/Data-1.zip)，if needed, you can run the above program yourself (its a bit big for github sync, otherwise, the not-so-simple github LFS will be required).
 
