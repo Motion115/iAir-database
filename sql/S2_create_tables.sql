@@ -6,10 +6,10 @@ create table city (
     cluster_id int not null,
     primary key(city_id)
     );
-    
+
 create table district (
 	district_id char(5) not null,
-    district_name varchar(20) not null,
+    district_name varchar(100) not null,
     city_id char(3) not null,
     primary key(district_id),
     foreign key (city_id) references city(city_id)
@@ -17,7 +17,7 @@ create table district (
 
 create table station (
 	station_id char(6) not null,
-    station_name varchar(20) not null,
+    station_name varchar(100) not null,
     latitude float not null,
     longitude float not null,
     district_id char(5) not null,
@@ -38,8 +38,8 @@ create table air_quality (
     foreign key (station_id) references station(station_id)
     );
 
-create table meteorology (
-	station_id char(6) not null,
+create table city_meteorology (
+	city_id char(3) not null,
     tod datetime not null,
     weather int,
     temperature float,
@@ -47,11 +47,38 @@ create table meteorology (
     humidity float,
     wind_speed float,
     wind_direction int,
-    primary key(station_id, tod),
-    foreign key (station_id) references station(station_id)
+    primary key(city_id, tod),
+    foreign key (city_id) references city(city_id)
     );
 
-create table forecast (
+create table district_meteorology (
+	district_id char(5) not null,
+    tod datetime not null,
+    weather int,
+    temperature float,
+    pressure float,
+    humidity float,
+    wind_speed float,
+    wind_direction int,
+    primary key(district_id, tod),
+    foreign key (district_id) references district(district_id)
+    );
+
+create table city_forecast (
+	city_id char(3) not null,
+    tod datetime not null,
+    tof datetime not null,
+    frequency int,
+    weather int,
+    high_temp float,
+    low_temp float,
+    wind_direction float,
+    wind_level float,
+    primary key(city_id, tod, tof),
+    foreign key (city_id) references city(city_id)
+    );
+    
+create table district_forecast (
 	district_id char(5) not null,
     tod datetime not null,
     tof datetime not null,
@@ -69,7 +96,9 @@ desc city;
 desc district;
 desc station;
 desc air_quality;
-desc meteorology;
-desc forecast;
+desc city_meteorology;
+desc district_meteorology;
+desc city_forecast;
+desc district_forecast;
 
 show tables;

@@ -21,8 +21,8 @@ def splitTable(fileName):
     # split fileName by dot
     fileName = fileName.split(".")
     # write to csv
-    city_level.to_csv("." + fileName[1] + "_cityLevel.csv", index = False)
-    district_level.to_csv("." + fileName[1] + "_districtLevel.csv", index = False)
+    city_level.to_csv("." + fileName[1] + "_c.csv", index = False)
+    district_level.to_csv("." + fileName[1] + "_d.csv", index = False)
 
 if __name__ == '__main__':
     splitTable(src + "meteorology.csv")
