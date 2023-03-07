@@ -1,31 +1,39 @@
 import './App.css';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios'
+import React from 'react';
+import axios from 'axios';
 
-function App() {
-  const [getMessage, setGetMessage] = useState({})
+export default class App extends React.Component {
+  state = {
+    city_table: []
+  }
 
-  useEffect(()=>{
-    axios.get('http://localhost:5000/flask/hello').then(response => {
-      console.log("SUCCESS", response)
-      setGetMessage(response)
-    }).catch(error => {
-      console.log(error)
-    })
+  click() {
+    axios.get("http://127.0.0.1:5000/data")
+      .then(res => {
+        const city_data = res.data
+        this.setState({ city_table: city_data })
+      })
+  }
 
-  }, [])
+  call() {
+    console.log(this.state.city_table)
+    // iterate through this array and print the values
+    let paragraph = ""
+    for (let i = 0; i < this.state.city_table.length; i++) {
+      paragraph += this.state.city_table[i].city_name + ", "
+    }
+    return paragraph
+  }
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>React + Flask Tutorial</p>
-        <div>{getMessage.status === 200 ? 
-          <h3>{getMessage.data.message}</h3>
-          :
-          <h3>LOADING</h3>}</div>
-      </header>
-    </div>
-  );
+  render() {
+    return (
+      <div>
+        // button for activating the call function
+        <button onClick={() => this.click()}>Click</button>
+        <p>
+          {this.call()}
+        </p>
+      </div>
+    )
+  }
 }
-
-export default App;
