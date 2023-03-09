@@ -13,7 +13,7 @@ db = SQLAlchemy(app)
 api = Api(app)
 cors = CORS(app)
 
-@app.route('/data')
+@app.route('/getCityTable')
 def index_page():
     city = get_city_data(db)
     return city

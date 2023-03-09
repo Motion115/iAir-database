@@ -1,4 +1,4 @@
-import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { Card, Col, Row, Statistic } from 'antd';
 import axios from 'axios';
 import React from 'react';
@@ -49,8 +49,6 @@ export default class SingleStat extends React.Component {
                                 valueStyle={{
                                     color: '#3f8600',
                                 }}
-                                prefix={<ArrowUpOutlined />}
-                                suffix=""
                             />
                         </Card>
                     </Col>
@@ -63,8 +61,6 @@ export default class SingleStat extends React.Component {
                                 valueStyle={{
                                     color: '#cf1322',
                                 }}
-                                prefix={<ArrowDownOutlined />}
-                                suffix=""
                             />
                         </Card>
                     </Col>
@@ -77,8 +73,6 @@ export default class SingleStat extends React.Component {
                                 valueStyle={{
                                     color: '#cf1322',
                                 }}
-                                prefix={<ArrowDownOutlined />}
-                                suffix=""
                             />
                         </Card>
                     </Col>
@@ -91,8 +85,6 @@ export default class SingleStat extends React.Component {
                                 valueStyle={{
                                     color: '#cf1322',
                                 }}
-                                prefix={<ArrowDownOutlined />}
-                                suffix=""
                             />
                         </Card>
                     </Col>

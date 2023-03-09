@@ -7,9 +7,19 @@ def get_city_data(db):
     city = city.fetchall()
     # transform city into json format
     city = [dict(row) for row in city]
+    for i in range(len(city)):
+        if city[i]["cluster_id"] == 1:
+            city[i]["cluster_id"] = "Capital Urban Agglomeration"
+        elif city[i]["cluster_id"] == 2:
+            city[i]["cluster_id"] = "Greater Bay Aera"
+    # for attribute cluster_id, replace all 1s with "Capital Urban Agglomeration" and all 2s with "Greater Bay Aera"
+    #for i in range(len(city)):
+     #   if city[i].cluster_id == "1":
+       #     city[i].cluster_id = "Capital Urban Agglomeration"
+      #  elif city[i].cluster_id == "2":
+        #    city[i].cluster_id = "Greater Bay Aera"
     # list to json
     city = json.dumps(city)
-    # print(city)
     return city
 
 def api_get_table_length(db, table_name):

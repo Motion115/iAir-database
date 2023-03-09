@@ -1,5 +1,6 @@
 import './App.css';
 import ValueInfo from './module/valueInfo.js'
+import Distmap from './module/distmap.js'
 import React from 'react';
 import axios from 'axios';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
@@ -56,6 +57,11 @@ export default class App extends React.Component {
               <Card title="General Statistics">
                 <ValueInfo></ValueInfo>
               </Card>
+              <br />
+              <Card title="Distribution Map">
+                <Distmap></Distmap>                
+              </Card>
+              
 						</div>
 					</Content>
 					<Footer style={{textAlign: 'center',}}>
