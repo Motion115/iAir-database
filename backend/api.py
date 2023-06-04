@@ -51,6 +51,19 @@ def api_get_station_distribution(db, city_name):
     # transform station_distribution into json format
     station_distribution = [dict(row) for row in station_distribution]
     
+    # get the district table from database
+    district = db.session.execute("select * from district where city_id = (select city_id from city where city_name = '" + city_name + "');")
+    # expand district
+    district = district.fetchall()
+    # transform district into json format
+    district = [dict(row) for row in district]
+
+    # for each content in station_distribution, replace the district_id with district_name
+    for i in range(len(station_distribution)):
+        for j in range(len(district)):
+            if station_distribution[i]["district_id"] == district[j]["district_id"]:
+                station_distribution[i]["district_id"] = district[j]["district_name"]
+                break
 
     station_distribution = json.dumps(station_distribution)
     return station_distribution

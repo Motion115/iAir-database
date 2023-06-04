@@ -1,6 +1,7 @@
 import './default_style.css';
 import Plot from './module/plot.js'
 import InputBracket from './module/input_bracket.js'
+import Tagging from './module/tag.js'
 import Head from './default_header.js'
 import Foot from './default_footer.js'
 import StationDist from './module/station_dist.js'
@@ -59,7 +60,7 @@ export default class App extends React.Component {
     }
 
     getSerachKey = (key) => {
-        console.log(this.state.city_names)
+        // console.log(this.state.city_names)
         // check if the key is in the city_names list
         if (this.state.city_names.indexOf(key) !== -1) {
             this.setState({
@@ -89,13 +90,19 @@ export default class App extends React.Component {
                         <br />
                         <div className="site-layout-content">
                             <br />
-                            <Card title="Trend">
-                                {/*<Plot></Plot>*/}
+                            <Card title="City">
+                                {/*<InputBracket onValueChange={this.getSerachKey}></InputBracket>*/}
+                                <Tagging data={this.state.city_names} onValueChange={this.getSerachKey}></Tagging>
                             </Card>
+                            <br />
                             <Card title="City Station Distribution">
                                 <StationDist city={this.state.target_city}></StationDist>
                             </Card>
-                            <InputBracket onValueChange={this.getSerachKey}></InputBracket>
+                            <br />
+                            <Card title="Trend">
+                                {/*<Plot></Plot>*/}
+                            </Card>
+                            
                         </div>
                     </Content>
                     

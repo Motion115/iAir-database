@@ -24,6 +24,7 @@ export default class InputBracket extends React.Component {
             <div>
                 <Search
                     allowClear
+                    defaultValue='BeiJing'
                     onSearch={this.recordChange}
                     style={{
                         width: 300,
