@@ -24,7 +24,7 @@ const DemoScatter = () => {
 		yField: 'longitude',
 		shape: 'circle',
 		colorField: 'cluster_id',
-		size: 4,
+		size: 8,
 		tooltip: {
 			fields: ['city_name'],
 		},

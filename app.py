@@ -38,6 +38,11 @@ def get_distinct_city():
     distinct_city = api_get_distinct_city(db)
     return distinct_city
 
+@app.route('/getCityStatistics/<city_name>')
+def get_city_statistics(city_name):
+    city_statistics = api_get_city_statistics(db, city_name)
+    return city_statistics
+
 if __name__ == '__main__':
     app.run(debug=True)
 

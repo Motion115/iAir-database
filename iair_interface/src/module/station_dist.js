@@ -37,7 +37,7 @@ class DemoScatter extends React.Component {
 			yField: 'longitude',
 			shape: 'circle',
 			colorField: 'district_id',
-			size: 4,
+			size: 8,
 			tooltip: {
 				fields: ['station_name'],
 			},
@@ -46,6 +46,12 @@ class DemoScatter extends React.Component {
 					text: "longitude",
 				},
 				nice: true,
+				label: {
+					// remain two decimals for the formatter callback function
+					formatter: (v) => {
+						return parseFloat(v).toFixed(2);
+					}
+				},
 				line: {
 					style: {
 						stroke: '#aaa',
@@ -70,6 +76,7 @@ class DemoScatter extends React.Component {
 					},
 				},
 			},
+			
 		};
 
 		return <Scatter {...config} />;

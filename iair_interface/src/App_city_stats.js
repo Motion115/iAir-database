@@ -25,7 +25,7 @@ export default class App extends React.Component {
 
     componentDidMount() {
         this.getViableCity()
-    }
+    } 
 
     getViableCity = () => {
         axios.get('http://127.0.0.1:5000/getDistinctCity')
@@ -80,6 +80,7 @@ export default class App extends React.Component {
         }
     }
 
+
     render() {
         return (
             <div>
@@ -99,10 +100,29 @@ export default class App extends React.Component {
                                 <StationDist city={this.state.target_city}></StationDist>
                             </Card>
                             <br />
-                            <Card title="Trend">
-                                {/*<Plot></Plot>*/}
+                            <Card title="PM2.5 Trend">
+                                <Plot city={this.state.target_city} metric="pm2.5"></Plot>
                             </Card>
-                            
+                            <br />
+                            <Card title="PM10 Trend">
+                                <Plot city={this.state.target_city} metric="pm10"></Plot>
+                            </Card>
+                            <br />
+                            <Card title="SO2 Trend">
+                                <Plot city={this.state.target_city} metric="so2"></Plot>
+                            </Card>
+                            <br />
+                            <Card title="CO Trend">
+                                <Plot city={this.state.target_city} metric="co"></Plot>
+                            </Card>
+                            <br />
+                            <Card title="O3 Trend">
+                                <Plot city={this.state.target_city} metric="o3"></Plot>
+                            </Card>
+                            <br />
+                            <Card title="NO2 Trend">
+                                <Plot city={this.state.target_city} metric="no2"></Plot>
+                            </Card>
                         </div>
                     </Content>
                     
