@@ -43,9 +43,9 @@ def api_get_city_groups(db):
     city_groups = city_groups[0]["count(*)"]
     return str(city_groups)
 
-def api_get_station_distribution(db):
+def api_get_station_distribution(db, city_name):
     # get data from database
-    station_distribution = db.session.execute("select * from station where district_id in (select district_id from district where city_id = (select city_id from city where city_name = 'Beijing'));")
+    station_distribution = db.session.execute("select * from station where district_id in (select district_id from district where city_id = (select city_id from city where city_name = '" + city_name + "'));")
     # expand station_distribution
     station_distribution = station_distribution.fetchall()
     # transform station_distribution into json format

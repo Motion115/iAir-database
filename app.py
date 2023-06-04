@@ -28,9 +28,9 @@ def get_city_groups():
     table_length = api_get_city_groups(db)
     return table_length
 
-@app.route('/getStationDistribution')
-def get_station_distribution():
-    station_dist = api_get_station_distribution(db)
+@app.route('/getStationDistribution/<city_name>')
+def get_station_distribution(city_name):
+    station_dist = api_get_station_distribution(db, city_name)
     return station_dist
 
 @app.route('/getDistinctCity')

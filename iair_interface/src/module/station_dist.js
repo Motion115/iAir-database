@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Scatter } from '@ant-design/plots';
 import axios from 'axios';
 
-const DemoScatter = () => {
+const DemoScatter = (city) => {
 	const [data, setData] = useState([]);
 
 	useEffect(() => {
@@ -10,10 +10,9 @@ const DemoScatter = () => {
 	}, []);
 
 	const asyncFetch = () => {
-		axios.get("http://127.0.0.1:5000/getStationDistribution")
+		axios.get("http://127.0.0.1:5000/getStationDistribution/" + city['city'])
 			.then(res => {
 				setData(res.data)
-				//console.log(res.data)
 			})
 	}
 
