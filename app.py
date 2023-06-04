@@ -28,6 +28,16 @@ def get_city_groups():
     table_length = api_get_city_groups(db)
     return table_length
 
+@app.route('/getStationDistribution')
+def get_station_distribution():
+    station_dist = api_get_station_distribution(db)
+    return station_dist
+
+@app.route('/getDistinctCity')
+def get_distinct_city():
+    distinct_city = api_get_distinct_city(db)
+    return distinct_city
+
 if __name__ == '__main__':
     app.run(debug=True)
 

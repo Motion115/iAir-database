@@ -10,7 +10,7 @@ const DemoScatter = () => {
 	}, []);
 
 	const asyncFetch = () => {
-		axios.get("http://127.0.0.1:5000/getCityTable")
+		axios.get("http://127.0.0.1:5000/getStationDistribution")
 			.then(res => {
 				setData(res.data)
 				//console.log(res.data)
@@ -23,10 +23,10 @@ const DemoScatter = () => {
 		xField: 'latitude',
 		yField: 'longitude',
 		shape: 'circle',
-		colorField: 'cluster_id',
+		colorField: 'district_id',
 		size: 4,
 		tooltip: {
-			fields: ['city_name'],
+			fields: ['station_name'],
 		},
 		yAxis: {
 			title: {
@@ -43,7 +43,7 @@ const DemoScatter = () => {
 			title: {
 				text: "latitude",
 			},
-			min: 20,
+			nice: true,
 			grid: {
 				line: {
 					style: {
