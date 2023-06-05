@@ -18,3 +18,11 @@ where city_id = (select city_id from city where city_name = 'Beijing'))
 group by DATE(tod)
 order by DATE(tod)
 ;
+
+select * from city;
+
+select * from city_meteorology
+where city_id in (select city_id from city where city_name = 'Beijing')
+group by tod
+order by tod
+;

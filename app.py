@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, Response, jsonify, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Resource, Api
 from flask_cors import CORS, cross_origin
@@ -42,6 +42,33 @@ def get_distinct_city():
 def get_city_statistics(city_name):
     city_statistics = api_get_city_statistics(db, city_name)
     return city_statistics
+
+@app.route('/downloader/<mode>', methods=['GET'])
+def download(mode):
+    datum = api_download_data(db, mode)
+    # read json datum to df
+    df = pd.read_json(datum)
+    # Convert the data to a CSV string
+    csv_string = df.to_csv(index=False)
+    # Create a response object with the CSV string as the content
+    response = Response(csv_string, mimetype='text/csv')
+    # Set the appropriate headers to indicate that the response should be downloaded as a file
+    response.headers['Content-Disposition'] = 'attachment; filename=data.csv'
+    return response
+
+@app.route('/downloader2/<mode>/<city_name>', methods=['GET'])
+def download2(mode, city_name):
+    datum = api_download_city_specific_data(db, mode, city_name)
+    # read json datum to df
+    df = pd.read_json(datum)
+    # Convert the data to a CSV string
+    csv_string = df.to_csv(index=False)
+    # Create a response object with the CSV string as the content
+    response = Response(csv_string, mimetype='text/csv')
+    # Set the appropriate headers to indicate that the response should be downloaded as a file
+    response.headers['Content-Disposition'] = 'attachment; filename=data.csv'
+    return response
+
 
 if __name__ == '__main__':
     app.run(debug=True)

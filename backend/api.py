@@ -1,4 +1,5 @@
 import json
+import pandas as pd
 
 def get_city_data(db):
     # get data from database
@@ -12,15 +13,18 @@ def get_city_data(db):
             city[i]["cluster_id"] = "Capital Urban Agglomeration"
         elif city[i]["cluster_id"] == 2:
             city[i]["cluster_id"] = "Greater Bay Aera"
-    # for attribute cluster_id, replace all 1s with "Capital Urban Agglomeration" and all 2s with "Greater Bay Aera"
-    #for i in range(len(city)):
-     #   if city[i].cluster_id == "1":
-       #     city[i].cluster_id = "Capital Urban Agglomeration"
-      #  elif city[i].cluster_id == "2":
-        #    city[i].cluster_id = "Greater Bay Aera"
-    # list to json
     city = json.dumps(city)
     return city
+
+def api_get_a_table(db, table_name):
+    # get data from database
+    table = db.session.execute('select * from ' + table_name)
+    # expand table
+    table = table.fetchall()
+    # transform table into json format
+    table = [dict(row) for row in table]
+    table = json.dumps(table)
+    return table
 
 def api_get_table_length(db, table_name):
     # get data from database
@@ -100,3 +104,54 @@ def api_get_city_statistics(db, city_name):
     # print(city_statistics[0].keys())
     city_statistics = json.dumps(city_statistics)
     return city_statistics
+
+def api_get_meteo_data(db, city_name):
+    sql_query = "select * from city_meteorology where city_id in (select city_id from city where city_name = '" + city_name + "') group by tod order by tod;"
+    # get data from database
+    meteo_data = db.session.execute(sql_query)
+    # expand meteo_data
+    meteo_data = meteo_data.fetchall()
+    # transform meteo_data into json format
+    meteo_data = [dict(row) for row in meteo_data]
+    # turn datetime format into string
+    for i in range(len(meteo_data)):
+        meteo_data[i]["tod"] = str(meteo_data[i]["tod"])
+    meteo_data = json.dumps(meteo_data)
+    return meteo_data
+
+def api_get_forecast_data(db, city_name):
+    sql_query = "select * from city_forecast where city_id in (select city_id from city where city_name = '" + city_name + "') group by tod order by tod;"
+    # get data from database
+    forecast_data = db.session.execute(sql_query)
+    # expand forecast_data
+    forecast_data = forecast_data.fetchall()
+    # transform forecast_data into json format
+    forecast_data = [dict(row) for row in forecast_data]
+    # turn datetime format into string
+    for i in range(len(forecast_data)):
+        forecast_data[i]["tod"] = str(forecast_data[i]["tod"])
+        forecast_data[i]["tof"] = str(forecast_data[i]["tof"])
+    forecast_data = json.dumps(forecast_data)
+    return forecast_data
+
+def api_download_data(db, mode):
+    # judge the mode, call the respective api to get the data
+    if mode == "city":
+        datum = get_city_data(db)
+    elif mode == "district":
+        datum = api_get_a_table(db, "district")
+    elif mode == "station":
+        datum = api_get_a_table(db, "station")
+    return datum
+
+
+def api_download_city_specific_data(db, mode, city_name):
+    # judge the mode, call the respective api to get the data
+    if mode == "AQI":
+        datum = api_get_city_statistics(db, city_name)
+    elif mode == "meteo":
+        datum = api_get_meteo_data(db, city_name)
+    elif mode == "forecast":
+        datum = api_get_forecast_data(db, city_name)
+    return datum
+

@@ -19,7 +19,8 @@ export default class App extends React.Component {
         super(props);
 
         this.state = {
-            city_names: []
+            city_names: [],
+            target_city: ''
         }
     }
 

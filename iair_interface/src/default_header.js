@@ -35,11 +35,16 @@ export default class Head extends React.Component {
                                     },
                                     {
                                         key: 2, label: (
-                                            <a rel="noopener noreferrer" href="./info">
+                                            <a rel="noopener noreferrer" href="./citystats">
                                                 City Stat
                                             </a>)
                                     },
-                                    { key: 3, label: 'CO2'},
+                                    { 
+                                        key: 3, label: (
+                                            <a rel="noopener noreferrer" href="./professional">
+                                                Professional
+                                            </a>)
+                                    },
                                 ]}
                             >
                             </Menu>

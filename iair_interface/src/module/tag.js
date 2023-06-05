@@ -38,6 +38,7 @@ class Tagging extends Component {
                             key={tag}
                             checked={selectedTags.includes(tag)}
                             onChange={(checked) => this.handleChange(tag, checked)}
+                            style={{ fontSize: 14 }}
                         >
                             {tag}
                         </CheckableTag>
