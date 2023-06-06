@@ -1,5 +1,7 @@
 import json
 import pandas as pd
+from backend.utils import AQI_calculator
+from backend.predict import gaussian_process_regressor
 
 def get_city_data(db):
     # get data from database
@@ -101,9 +103,23 @@ def api_get_city_statistics(db, city_name):
                 city_statistics[i]["pm2.5"] = city_statistics[i][key]
                 del city_statistics[i][key]
 
+    # calculate AQI
+    for i in range(len(city_statistics)):
+        # create a dict to input AQI_calculator
+        indicators = {
+            'PM2.5': city_statistics[i]["pm2.5"],
+            'PM10': city_statistics[i]["pm10"],
+            'SO2': city_statistics[i]["so2"],
+            'NO2': city_statistics[i]["no2"],
+            'O3': city_statistics[i]["o3"],
+            'CO': city_statistics[i]["co"]
+        }
+        city_statistics[i]["AQI"] = AQI_calculator(indicators)
+
     # print(city_statistics[0].keys())
     city_statistics = json.dumps(city_statistics)
     return city_statistics
+
 
 def api_get_meteo_data(db, city_name):
     sql_query = "select * from city_meteorology where city_id in (select city_id from city where city_name = '" + city_name + "') group by tod order by tod;"
@@ -155,3 +171,57 @@ def api_download_city_specific_data(db, mode, city_name):
         datum = api_get_forecast_data(db, city_name)
     return datum
 
+def api_get_city_statistics_with_prediction(db, city_name):
+    sql_query = "select DATE(tod) as tod, avg(pm2) as pm2, avg(pm10) as pm10, avg(no2) as no2, avg(co) as co, avg(o3) as o3, avg(so2) as so2 from air_quality where station_id in (select station_id from station where district_id in (select district_id from district where city_id = (select city_id from city where city_name = '" + city_name + "'))) group by DATE(tod) order by DATE(tod);"
+    # get data from database
+    city_statistics = db.session.execute(sql_query)
+    # expand city_statistics
+    city_statistics = city_statistics.fetchall()
+    # transform city_statistics into json format
+    city_statistics = [dict(row) for row in city_statistics]
+    # turn datetime format into string
+    for i in range(len(city_statistics)):
+        city_statistics[i]["tod"] = str(city_statistics[i]["tod"])
+    # if the key is pm2, replace with pm2.5
+    for i in range(len(city_statistics)):
+        for key in city_statistics[i]:
+            if key == "pm2":
+                city_statistics[i]["pm2.5"] = city_statistics[i][key]
+                del city_statistics[i][key]
+
+    # calculate AQI
+    for i in range(len(city_statistics)):
+        # create a dict to input AQI_calculator
+        indicators = {
+            'PM2.5': city_statistics[i]["pm2.5"],
+            'PM10': city_statistics[i]["pm10"],
+            'SO2': city_statistics[i]["so2"],
+            'NO2': city_statistics[i]["no2"],
+            'O3': city_statistics[i]["o3"],
+            'CO': city_statistics[i]["co"]
+        }
+        city_statistics[i]["AQI"] = AQI_calculator(indicators)
+    
+    # use pandas to transform city_statistics into dataframe
+    city_statistics_dframe = pd.DataFrame(city_statistics)
+    # print(city_statistics_dframe["AQI"])
+    time_length = len(city_statistics_dframe)
+    y_pred = gaussian_process_regressor(time_length, city_statistics_dframe["AQI"])
+    # print y_pred in integers
+    y_pred = [int(i) for i in y_pred]
+    # add y_pred to city_statistics
+    for i in range(len(city_statistics)):
+        city_statistics[i]["AQI_prediction"] = y_pred[i]
+    
+    # create a copy of city_statistics, only preserving tod and AQI
+    city_statistics_copy_AQI = []
+    city_statistics_copy_predict_AQI = []
+
+    for i in range(len(city_statistics)):
+        city_statistics_copy_AQI.append({"tod": city_statistics[i]["tod"], "AQI": city_statistics[i]["AQI"], "category": "AQI"})
+        city_statistics_copy_predict_AQI.append({"tod": city_statistics[i]["tod"], "AQI": city_statistics[i]["AQI_prediction"], "category": "AQI_prediction"})
+
+    city_statistics = city_statistics_copy_AQI + city_statistics_copy_predict_AQI
+
+    city_statistics = json.dumps(city_statistics)
+    return city_statistics

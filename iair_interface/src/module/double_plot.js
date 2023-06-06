@@ -26,7 +26,7 @@ class DemoLine extends Component {
     }
 
     asyncFetch() {
-        axios.get("http://127.0.0.1:5000/getCityStatistics/" + this.props.city)
+        axios.get("http://127.0.0.1:5000/getCityStatisticsWithPrediction/" + this.props.city)
             .then(res => {
                 this.setState({ data: res.data });
                 //console.log(res.data)
@@ -39,6 +39,7 @@ class DemoLine extends Component {
             padding: 'auto',
             xField: 'tod',
             yField: this.state.metric,
+            seriesField: 'category',
             xAxis: {
                 // type: 'timeCat',
                 tickCount: 5,

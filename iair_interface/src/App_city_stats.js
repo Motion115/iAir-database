@@ -1,5 +1,6 @@
 import './default_style.css';
 import Plot from './module/plot.js'
+import DoublePlot from './module/double_plot.js'
 import InputBracket from './module/input_bracket.js'
 import Tagging from './module/tag.js'
 import Head from './default_header.js'
@@ -7,7 +8,7 @@ import Foot from './default_footer.js'
 import StationDist from './module/station_dist.js'
 import React from 'react';
 import axios from 'axios';
-import { Breadcrumb, Button, Layout, Menu, theme } from 'antd';
+import { Breadcrumb, Button, Layout, Menu, theme, Row, Col } from 'antd';
 import { Card } from 'antd';
 const { Header, Content, Footer } = Layout;
 
@@ -101,29 +102,49 @@ export default class App extends React.Component {
                                 <StationDist city={this.state.target_city}></StationDist>
                             </Card>
                             <br />
-                            <Card title="PM2.5 Trend">
-                                <Plot city={this.state.target_city} metric="pm2.5"></Plot>
+                            <Card title="AQI Trend">
+                                <DoublePlot city={this.state.target_city} metric="AQI"></DoublePlot>
                             </Card>
                             <br />
-                            <Card title="PM10 Trend">
-                                <Plot city={this.state.target_city} metric="pm10"></Plot>
-                            </Card>
+                            <Row gutter={16}>
+                                <Col span={12}>
+                                    <Card title="PM2.5 Trend">
+                                        <Plot city={this.state.target_city} metric="pm2.5"></Plot>
+                                    </Card>
+                                </Col>
+                                <Col span={12}>
+                                    <Card title="PM10 Trend">
+                                        <Plot city={this.state.target_city} metric="pm10"></Plot>
+                                    </Card>
+                                </Col>
+                            </Row>
                             <br />
-                            <Card title="SO2 Trend">
-                                <Plot city={this.state.target_city} metric="so2"></Plot>
-                            </Card>
+                            <Row gutter={16}>
+                                <Col span={12}>
+                                    <Card title="SO2 Trend">
+                                        <Plot city={this.state.target_city} metric="so2"></Plot>
+                                    </Card>
+                                </Col>
+                                <Col span={12}>
+                                    <Card title="CO Trend">
+                                        <Plot city={this.state.target_city} metric="co"></Plot>
+                                    </Card>
+                                </Col>
+                            </Row>
                             <br />
-                            <Card title="CO Trend">
-                                <Plot city={this.state.target_city} metric="co"></Plot>
-                            </Card>
+                            <Row gutter={16}>
+                                <Col span={12}>
+                                    <Card title="O3 Trend">
+                                        <Plot city={this.state.target_city} metric="o3"></Plot>
+                                    </Card>
+                                </Col>
+                                <Col span={12}>
+                                    <Card title="NO2 Trend">
+                                        <Plot city={this.state.target_city} metric="no2"></Plot>
+                                    </Card>
+                                </Col>
+                            </Row>
                             <br />
-                            <Card title="O3 Trend">
-                                <Plot city={this.state.target_city} metric="o3"></Plot>
-                            </Card>
-                            <br />
-                            <Card title="NO2 Trend">
-                                <Plot city={this.state.target_city} metric="no2"></Plot>
-                            </Card>
                         </div>
                     </Content>
                     

@@ -43,6 +43,11 @@ def get_city_statistics(city_name):
     city_statistics = api_get_city_statistics(db, city_name)
     return city_statistics
 
+@app.route('/getCityStatisticsWithPrediction/<city_name>')
+def get_city_statistics_with_prediction(city_name):
+    city_statistics = api_get_city_statistics_with_prediction(db, city_name)
+    return city_statistics
+
 @app.route('/downloader/<mode>', methods=['GET'])
 def download(mode):
     datum = api_download_data(db, mode)
@@ -72,4 +77,5 @@ def download2(mode, city_name):
 
 if __name__ == '__main__':
     app.run(debug=True)
+    # api_get_city_statistics_with_prediction(db, "BeiJing")
 
