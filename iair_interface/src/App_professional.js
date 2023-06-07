@@ -5,11 +5,13 @@ import React from 'react';
 import CardStat from './module/card_stat_spec.js'
 import Tagging from './module/tag.js'
 import axios from 'axios';
-import { Breadcrumb, Layout, Menu, theme, Typography } from 'antd';
+import { CheckCircleTwoTone, CloseCircleTwoTone, EnterOutlined} from '@ant-design/icons';
+import { Breadcrumb, Layout, Menu, theme, Typography, Input} from 'antd';
 import { Card } from 'antd';
 import { Row, Col } from 'antd';
 const { Header, Content, Footer } = Layout;
 const { Text } = Typography;
+const { Search } = Input;
 
 export default class App extends React.Component {
     constructor(props) {
@@ -23,7 +25,8 @@ export default class App extends React.Component {
                 num_stations: 0,
             },
             city_names: [],
-            target_city: ''
+            target_city: '',
+            verification: false
         };
     }
 
@@ -65,6 +68,22 @@ export default class App extends React.Component {
         })
     }
 
+    recordChange = (value) => {
+        axios.get("http://127.0.0.1:5000/validification/" + value)
+            .then(res => {
+                if (res.data === "granted"){
+                    this.setState({
+                        verification: true
+                    })
+                }
+                else {
+                    this.setState({
+                        verification: false
+                    })
+                }
+            })
+    }
+
     render() {
         return (
             <div>
@@ -73,22 +92,39 @@ export default class App extends React.Component {
                     <Content style={{ padding: '0 50px', }}>
                         <br />
                         <div className="site-layout-content">
+                            <Card title="Verification">
+                                <Row>
+                                    <Col span={12}>
+                                        <Search
+                                            allowClear
+                                            defaultValue='Access token'
+                                            onSearch={this.recordChange}
+                                            style={{
+                                                width: 300,
+                                            }}
+                                            enterButton={<EnterOutlined />}
+                                        />
+                                        <p>File Access Status:  {this.state.verification ? <CheckCircleTwoTone style={{ fontSize: '25px' }} twoToneColor="#52c41a" /> : <CloseCircleTwoTone style={{ fontSize: '25px' }} twoToneColor="#FF0000" />}</p>
+                                    </Col>
+                                </Row>
+                            </Card>
+                            <br />
                             <Card title="Data Panel">
                                 <Row gutter={16}>
                                     <Col span={6}>
-                                        <CardStat title="Cities" mode="city" value={this.state.statistics.num_cities}/>
+                                        <CardStat title="Cities" mode="city" value={this.state.statistics.num_cities} verification={this.state.verification}/>
                                     </Col>
                                     <Col span={6}>
-                                        <CardStat title="Districts" mode="district" value={this.state.statistics.num_districts} />
+                                        <CardStat title="Districts" mode="district" value={this.state.statistics.num_districts} verification={this.state.verification} />
                                     </Col>
                                     <Col span={6}>
-                                        <CardStat title="Stations" mode="station" value={this.state.statistics.num_stations} />
+                                        <CardStat title="Stations" mode="station" value={this.state.statistics.num_stations} verification={this.state.verification} />
                                     </Col>
                                 </Row>
                                 <br />
                                 <Row gutter={16}>
                                     <Col span={6}>
-                                        <CardStat title="Cities Air Quality" mode="AQI" value={this.state.statistics.num_cities} city_name={this.state.target_city}/>
+                                        <CardStat title="Cities Air Quality" mode="AQI" value={this.state.statistics.num_cities} city_name={this.state.target_city} verification={this.state.verification} />
                                     </Col>
                                     <Col span={18}>
                                         <Tagging data={this.state.city_names} onValueChange={this.getSerachKey}></Tagging>
@@ -97,7 +133,7 @@ export default class App extends React.Component {
                                 <br />
                                 <Row gutter={16}>
                                     <Col span={6}>
-                                        <CardStat title="Cities Meteo" mode="meteo" value={this.state.statistics.num_cities} city_name={this.state.target_city} />
+                                        <CardStat title="Cities Meteo" mode="meteo" value={this.state.statistics.num_cities} city_name={this.state.target_city} verification={this.state.verification} />
                                     </Col>
                                     <Col span={18}>
                                         <Tagging data={this.state.city_names} onValueChange={this.getSerachKey}></Tagging>
@@ -106,7 +142,7 @@ export default class App extends React.Component {
                                 <br />
                                 <Row gutter={16}>
                                     <Col span={6}>
-                                        <CardStat title="Cities Forecast" mode="forecast" value={this.state.statistics.num_cities} city_name={this.state.target_city} />
+                                        <CardStat title="Cities Forecast" mode="forecast" value={this.state.statistics.num_cities} city_name={this.state.target_city} verification={this.state.verification} />
                                     </Col>
                                     <Col span={18}>
                                         <Tagging data={this.state.city_names} onValueChange={this.getSerachKey}></Tagging>

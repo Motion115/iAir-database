@@ -19,9 +19,18 @@ group by DATE(tod)
 order by DATE(tod)
 ;
 
+select count(*) from 
+(select distinct(cluster_id) from city) as temp
+
 select * from city;
 
 select * from city_meteorology
+where city_id in (select city_id from city where city_name = 'Beijing')
+group by tod
+order by tod
+;
+
+select * from city_forecast
 where city_id in (select city_id from city where city_name = 'Beijing')
 group by tod
 order by tod

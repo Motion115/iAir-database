@@ -225,3 +225,32 @@ def api_get_city_statistics_with_prediction(db, city_name):
 
     city_statistics = json.dumps(city_statistics)
     return city_statistics
+
+
+def api_validification(db, token):
+    # get user data from database
+    user_data = db.session.execute("select token from identification;")
+    # expand user_data
+    user_data = user_data.fetchall()
+    # transform user_data into json format
+    user_data = [dict(row) for row in user_data]
+    # if token is in user_data, return True
+    for i in range(len(user_data)):
+        if token == user_data[i]["token"]:
+            return True
+    return False
+
+def api_is_manager(token):
+    if token == "admin":
+        return True
+    return False
+
+def api_add_user(db, token):
+    # add token to database
+    db.session.execute("insert into identification (token) values ('" + token + "');")
+    db.session.commit()
+
+def api_delete_user(db, token):
+    # delete token from database
+    db.session.execute("delete from identification where token = '" + token + "';")
+    db.session.commit()

@@ -74,6 +74,33 @@ def download2(mode, city_name):
     response.headers['Content-Disposition'] = 'attachment; filename=data.csv'
     return response
 
+@app.route('/validification/<token>')
+def validification(token):
+    is_valid = api_validification(db, token)
+    if is_valid:
+        return "granted"
+    else:
+        return "not_granted"
+
+@app.route('/isManager/<token>')
+def isManager(token):
+    is_manager = api_is_manager(token)
+    if is_manager:
+        return "manager"
+    else:
+        return "not_manager"
+    
+@app.route("/addUser/<token>")
+def add_user(token):
+    api_add_user(db, token)
+    return "added"
+
+@app.route("/deleteUser/<token>")
+def delete_user(token):
+    api_delete_user(db, token)
+    return "deleted"
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

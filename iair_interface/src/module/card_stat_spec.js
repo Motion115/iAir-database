@@ -8,6 +8,7 @@ export default class SingleStat extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            verification: this.props.verification,
             title: this.props.title,
             mode: this.props.mode,
             value: this.props.value,
@@ -17,7 +18,11 @@ export default class SingleStat extends React.Component {
 
 
     download = () => {
-        console.log(this.state.city_name)
+        console.log(this.state.verification)
+        if (this.state.verification === false) {
+            alert("You have to get an access token to access the data.")
+            return
+        }
         if (this.state.mode === 'city' || this.state.mode === 'district' || this.state.mode === 'station') {
             axios({
                 url: 'http://127.0.0.1:5000/downloader/' + this.state.mode,
@@ -48,7 +53,8 @@ export default class SingleStat extends React.Component {
                 title: this.props.title,
                 mode: this.props.mode,
                 value: this.props.value,
-                city_name: this.props.city_name
+                city_name: this.props.city_name,
+                verification: this.props.verification
             })
         }
     }

@@ -45,6 +45,12 @@ export default class Head extends React.Component {
                                                 Professional
                                             </a>)
                                     },
+                                    {
+                                        key: 4, label: (
+                                            <a rel="noopener noreferrer" href="./manager">
+                                                Manager
+                                            </a>)
+                                    }
                                 ]}
                             >
                             </Menu>
