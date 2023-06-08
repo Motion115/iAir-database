@@ -3,7 +3,7 @@ import pandas as pd
 from backend.utils import AQI_calculator
 from backend.predict import gaussian_process_regressor
 
-def get_city_data(db):
+def api_get_city_data(db):
     # get data from database
     city = db.session.execute('select * from city')
     # expand city
@@ -14,7 +14,7 @@ def get_city_data(db):
         if city[i]["cluster_id"] == 1:
             city[i]["cluster_id"] = "Capital Urban Agglomeration"
         elif city[i]["cluster_id"] == 2:
-            city[i]["cluster_id"] = "Greater Bay Aera"
+            city[i]["cluster_id"] = "Greater Bay Area"
     city = json.dumps(city)
     return city
 
@@ -153,7 +153,7 @@ def api_get_forecast_data(db, city_name):
 def api_download_data(db, mode):
     # judge the mode, call the respective api to get the data
     if mode == "city":
-        datum = get_city_data(db)
+        datum = api_get_city_data(db)
     elif mode == "district":
         datum = api_get_a_table(db, "district")
     elif mode == "station":

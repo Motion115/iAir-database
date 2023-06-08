@@ -2,14 +2,12 @@ import './default_style.css';
 import Head from './default_header.js'
 import Foot from './default_footer.js'
 import React from 'react';
-import CardStat from './module/card_stat_spec.js'
-import Tagging from './module/tag.js'
 import axios from 'axios';
 import { CheckCircleTwoTone, CloseCircleTwoTone, EnterOutlined } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu, theme, Typography, Input } from 'antd';
+import { Layout, Typography, Input } from 'antd';
 import { Card } from 'antd';
 import { Row, Col } from 'antd';
-const { Header, Content, Footer } = Layout;
+const { Content } = Layout;
 const { Text } = Typography;
 const { Search } = Input;
 
@@ -115,14 +113,12 @@ export default class App extends React.Component {
                                             enterButton={<EnterOutlined />}
                                         />
                                     </Col>
-                                </Row>
-                                
+                                </Row>      
                             </Card>
                         </div>
                     </Content>
                     <Foot></Foot>
                 </Layout>
-
             </div>
         )
     }

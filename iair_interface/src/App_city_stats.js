@@ -8,12 +8,9 @@ import Foot from './default_footer.js'
 import StationDist from './module/station_dist.js'
 import React from 'react';
 import axios from 'axios';
-import { Breadcrumb, Button, Layout, Menu, theme, Row, Col } from 'antd';
+import { Layout, Row, Col } from 'antd';
 import { Card } from 'antd';
-const { Header, Content, Footer } = Layout;
-
-const levenshtein = require('fast-levenshtein');
-
+const { Content } = Layout;
 
 export default class App extends React.Component {
     constructor(props) {
@@ -81,7 +78,6 @@ export default class App extends React.Component {
             alert('Did you mean: ' + similar_city_str + "else?")
         }
     }
-
 
     render() {
         return (

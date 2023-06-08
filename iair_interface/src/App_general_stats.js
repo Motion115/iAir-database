@@ -4,13 +4,10 @@ import Distmap from './module/distmap.js'
 import Head from './default_header.js'
 import Foot from './default_footer.js'
 import React from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { Breadcrumb, Layout, Menu, theme, Typography } from 'antd';
+import { Layout } from 'antd';
 import { Card } from 'antd';
-import { Row, Col } from 'antd';
-const { Header, Content, Footer } = Layout;
-const { Text } = Typography;
+const { Content } = Layout;
+
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -32,12 +29,10 @@ export default class App extends React.Component {
 							<Card title="Distribution Map">
 								<Distmap></Distmap>
 							</Card>
-
 						</div>
 					</Content>
 					<Foot></Foot>
 				</Layout>
-
 			</div>
 		)
 	}

@@ -15,7 +15,7 @@ cors = CORS(app)
 
 @app.route('/getCityTable')
 def index_page():
-    city = get_city_data(db)
+    city = api_get_city_data(db)
     return city
 
 @app.route('/getTableLength/<table_name>')
@@ -99,8 +99,6 @@ def add_user(token):
 def delete_user(token):
     api_delete_user(db, token)
     return "deleted"
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)

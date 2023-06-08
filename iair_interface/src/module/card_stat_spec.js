@@ -1,5 +1,5 @@
-import { InfoCircleOutlined, ArrowUpOutlined, CloudDownloadOutlined } from '@ant-design/icons';
-import { Card, Col, Row, Statistic } from 'antd';
+import { CloudDownloadOutlined } from '@ant-design/icons';
+import { Card, Statistic } from 'antd';
 import axios from 'axios';
 import FileSaver from 'file-saver';
 import React from 'react';

@@ -1,4 +1,3 @@
-import { InfoCircleOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { Card, Col, Row, Statistic } from 'antd';
 import axios from 'axios';
 import React from 'react';

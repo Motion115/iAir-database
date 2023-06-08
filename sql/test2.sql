@@ -20,7 +20,7 @@ order by DATE(tod)
 ;
 
 select count(*) from 
-(select distinct(cluster_id) from city) as temp
+(select distinct(cluster_id) from city) as temp;
 
 select * from city;
 
